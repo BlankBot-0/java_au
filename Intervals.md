@@ -1,30 +1,41 @@
 # Intervals
 
-+ [Merge Intervals](#merge-intervals)
++ [Insert Interval](#insert-interval)
 
-## Merge Intervals
+## Insert Interval
 
-https://leetcode.com/problems/merge-intervals/
+https://leetcode.com/problems/insert-interval/
 
 ```java
 class Solution {
-    public int[][] merge(int[][] intervals) {
-        if(intervals == null || intervals.length < 1)
-            return intervals;
-        
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-        
-        LinkedList<int[]> merged = new LinkedList<int[]>();
-        
-        for(int[] curr : intervals ) {
-            
-            if(merged.isEmpty() || merged.getLast()[1] < curr[0])
-                merged.add(curr);
-            
-            else 
-                merged.getLast()[1] = Math.max(merged.getLast()[1], curr[1]);
+    
+    LinkedList<int[]> merged = new LinkedList<int[]>();
+    
+    void mergeList(LinkedList<int[]> list, int[] interval) {
+        if(list.isEmpty() || list.getLast()[1] < interval[0])
+            list.add(interval);
+        else
+            list.getLast()[1] = Math.max(list.getLast()[1], interval[1]);
+    }
+    
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        if(intervals == null || intervals.length < 1) {
+            return new int[][]{newInterval};
         }
-        return merged.toArray(new int[0][]);
+        
+        int i = 0;
+        while(i < intervals.length && intervals[i][0] < newInterval[0]){
+            mergeList(merged, intervals[i]);
+            i++;
+        }
+        mergeList(merged, newInterval);
+        
+        while(i < intervals.length){
+            mergeList(merged, intervals[i]);
+            i++;
+        }
+        
+       return merged.toArray(new int[merged.size()][]);
     }
 }
 ```
