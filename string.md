@@ -1,25 +1,22 @@
 # String
 
-+ [Group Anagrams](#group-anagrams)
++ [Valid Palindrome](#valid-palindrome)
 
-## Group Anagrams
+## Valid Palindrome
 
-https://leetcode.com/problems/group-anagrams/
+https://leetcode.com/problems/valid-palindrome/
 
 ```java
 class Solution {
-    public List<List<String>> groupAnagrams(String[] strs) {
-        HashMap<String, List<String>> groups = new HashMap<String, List<String>>();
+    public boolean isPalindrome(String s) {
+        s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase(); 
         
-        for (String word : strs) {
-            char[] chars = word.toCharArray();
-            Arrays.sort(chars);
-            String group = Arrays.toString(chars);
-            if (!groups.containsKey(group)) groups.put(group, new ArrayList<>());
-            groups.get(group).add(word);
+        for(int i = 0 ; i < s.length()/2; i++){
+            if(s.charAt(i)!=s.charAt(s.length()-1-i)){
+                return false;
+            }
         }
-        
-        return new ArrayList<>(groups.values());
+        return true;
     }
 }
 ```
